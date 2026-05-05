@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>GitSite – Discover Open Source</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================
+   GITSITE HOME – home.css
+   Shares design tokens with style.css
+   ============================ */
+@font-face {
+  font-family: 'Monaspace Neon';
+  src: url('https://raw.githubusercontent.com/githubnext/monaspace/main/fonts/webfonts/MonaspaceNeon-Regular.woff2') format('woff2');
+  font-weight: 400;
+}
+
+:root {
+  --gs-bg:          #0d1117;
+  --gs-surface:     #161b22;
+  --gs-surface2:    #1c2230;
+  --gs-surface3:    #21262d;
+  --gs-border:      #30363d;
+  --gs-border2:     #484f58;
+  --gs-text:        #e6edf3;
+  --gs-muted:       #7d8590;
+  --gs-link:        #58a6ff;
+  --gs-green:       #3fb950;
+  --gs-amber:       #d29922;
+  --gs-purple:      #6c50b9;
+  --gs-purple2:     #7c60cc;
+  --gs-purple-glow: rgba(108,80,185,.35);
+  --gs-red:         #f85149;
+  --gs-tag-bg:      #1c2d3d;
+  --gs-tag-text:    #79c0ff;
+  --ff-ui:   'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --ff-code: 'Monaspace Neon', 'Cascadia Code', 'Fira Code', monospace;
+  --radius: 6px;
+  --nav-h: 52px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--gs-bg);
+  color: var(--gs-text);
+  font-family: var(--ff-ui);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+a { color: var(--gs-link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── NAVBAR ── */
+.navbar {
+  background: var(--gs-surface);
+  border-bottom: 1px solid var(--gs-border);
+  height: var(--nav-h);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  position: sticky; top: 0; z-index: 100;
+}
+.navbar-brand { display:flex; align-items:center; gap:8px; text-decoration:none; color:var(--gs-text); flex-shrink:0; }
+.brand-icon { width:26px; height:26px; fill:var(--gs-purple); flex-shrink:0; }
+.brand-name { font-size:16px; font-weight:700; letter-spacing:-.3px; }
+.navbar-brand:hover .brand-name { color:var(--gs-link); }
+
+.nav-links { display:flex; gap:4px; }
+.nav-link { color:var(--gs-muted); font-size:13.5px; padding:5px 10px; border-radius:var(--radius); transition:color .15s,background .15s; }
+.nav-link:hover { color:var(--gs-text); background:var(--gs-surface3); text-decoration:none; }
+.nav-new { color:var(--gs-text); font-weight:500; }
+.nav-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
+.nav-avatar { width:28px;height:28px; background:var(--gs-purple); border-radius:50%; display:flex;align-items:center;justify-content:center; font-size:12px;font-weight:600;color:#fff; cursor:pointer; }
+.nav-avatar:hover { background:var(--gs-purple2); }
+.hamburger { display:none; flex-direction:column;justify-content:center;gap:5px; background:none;border:none;cursor:pointer;padding:4px;margin-left:auto; }
+.hamburger span { display:block;width:20px;height:2px;background:var(--gs-text);border-radius:2px;transition:transform .2s; }
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.mobile-menu { display:none;flex-direction:column;background:var(--gs-surface);border-bottom:1px solid var(--gs-border);padding:12px 0; position:sticky;top:var(--nav-h);z-index:99; }
+.mobile-menu.open { display:flex; }
+.mob-link { color:var(--gs-text);padding:10px 20px;font-size:14px;text-decoration:none;transition:background .15s; }
+.mob-link:hover { background:var(--gs-surface3); }
+
+/* ── HERO ── */
+.hero {
+  background: var(--gs-bg);
+  padding: 64px 20px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+/* subtle grid bg */
+.hero::before {
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(var(--gs-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--gs-border) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity:.18;
+  pointer-events:none;
+}
+/* purple glow */
+.hero::after {
+  content:'';
+  position:absolute;
+  top:-80px;left:50%;transform:translateX(-50%);
+  width:600px;height:300px;
+  background: radial-gradient(ellipse, var(--gs-purple-glow) 0%, transparent 70%);
+  pointer-events:none;
+}
+.hero-inner { position:relative;z-index:1; }
+.hero-logo { display:inline-flex;align-items:center;gap:12px;margin-bottom:28px; }
+.hero-logo-icon { width:52px;height:52px;fill:var(--gs-purple); filter:drop-shadow(0 0 16px rgba(108,80,185,.6)); }
+.hero-title { font-size:clamp(26px,5vw,48px); font-weight:700; letter-spacing:-1px; color:var(--gs-text); line-height:1.15; }
+.hero-title span { color:var(--gs-purple); }
+.hero-sub { color:var(--gs-muted); font-size:clamp(13px,2vw,16px); margin-top:10px; max-width:480px; margin-left:auto;margin-right:auto; }
+
+/* ── SEARCH BOX ── */
+.search-wrap {
+  max-width: 680px;
+  margin: 32px auto 0;
+  position: relative;
+}
+.search-source-tabs {
+  display:flex; gap:4px; justify-content:center; margin-bottom:10px;
+}
+.src-tab {
+  background:var(--gs-surface);
+  border:1px solid var(--gs-border);
+  color:var(--gs-muted);
+  padding:4px 14px;
+  border-radius:20px;
+  font-size:12px;
+  font-family:var(--ff-ui);
+  cursor:pointer;
+  transition:all .15s;
+}
+.src-tab:hover { color:var(--gs-text); border-color:var(--gs-border2); }
+.src-tab.active { background:var(--gs-purple); border-color:var(--gs-purple); color:#fff; font-weight:500; }
+
+.search-bar {
+  display:flex;
+  background:var(--gs-surface);
+  border:1px solid var(--gs-border);
+  border-radius:10px;
+  overflow:visible;
+  transition:border-color .2s, box-shadow .2s;
+  position:relative;
+}
+.search-bar:focus-within {
+  border-color:var(--gs-purple);
+  box-shadow:0 0 0 3px var(--gs-purple-glow);
+}
+.search-icon { display:flex;align-items:center;padding:0 14px; color:var(--gs-muted); flex-shrink:0; }
+.search-input {
+  flex:1;
+  background:transparent;
+  border:none;
+  color:var(--gs-text);
+  font-size:15px;
+  font-family:var(--ff-ui);
+  padding:12px 0;
+  outline:none;
+  min-width:0;
+}
+.search-input::placeholder { color:var(--gs-muted); }
+.search-btn {
+  background:var(--gs-purple);
+  border:none;
+  border-radius:0 9px 9px 0;
+  color:#fff;
+  padding:0 20px;
+  font-size:13.5px;
+  font-family:var(--ff-ui);
+  font-weight:600;
+  cursor:pointer;
+  transition:background .15s;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.search-btn:hover { background:var(--gs-purple2); }
+.search-btn:disabled { background:#3d2d7a; cursor:not-allowed; }
+
+/* source badge shown in results */
+.source-gh  { color:#58a6ff; }
+.source-gl  { color:#fc6d26; }
+
+/* autocomplete */
+.search-autocomplete {
+  position:absolute;
+  top:calc(100% + 4px);
+  left:0;right:0;
+  background:var(--gs-surface2);
+  border:1px solid var(--gs-border2);
+  border-radius:var(--radius);
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  z-index:200;
+  display:none;
+  max-height:280px;
+  overflow-y:auto;
+}
+.search-autocomplete.open { display:block; }
+.ac-item {
+  display:flex;align-items:center;gap:10px;
+  padding:9px 14px;
+  font-size:13px;
+  cursor:pointer;
+  transition:background .1s;
+}
+.ac-item:hover, .ac-item.selected { background:var(--gs-surface3); }
+.ac-repo-name { color:var(--gs-text); font-weight:500; }
+.ac-repo-owner { color:var(--gs-muted); font-size:12px; }
+.ac-stars { color:var(--gs-amber); font-size:11.5px; font-family:var(--ff-code); margin-left:auto; }
+
+/* ── MAIN CONTENT ── */
+.home-body {
+  max-width:1200px;
+  margin:0 auto;
+  padding:32px 20px 60px;
+}
+
+/* Section header */
+.section-header {
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;
+}
+.section-title {
+  font-size:15px;
+  font-weight:600;
+  color:var(--gs-text);
+  display:flex;align-items:center;gap:8px;
+}
+.section-title svg { color:var(--gs-purple); }
+.section-link { font-size:12.5px; color:var(--gs-link); }
+
+/* ── RESULTS AREA ── */
+.results-area { margin-bottom:36px; }
+.results-meta {
+  font-size:12.5px;
+  color:var(--gs-muted);
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:8px;
+}
+.results-meta strong { color:var(--gs-text); }
+.results-filter-row {
+  display:flex;gap:8px;flex-wrap:wrap;
+  margin-bottom:16px;
+}
+.filter-pill {
+  background:var(--gs-surface);
+  border:1px solid var(--gs-border);
+  color:var(--gs-muted);
+  padding:4px 12px;
+  border-radius:20px;
+  font-size:12px;
+  cursor:pointer;
+  transition:all .15s;
+}
+.filter-pill:hover { color:var(--gs-text);border-color:var(--gs-border2); }
+.filter-pill.active { background:var(--gs-tag-bg);color:var(--gs-tag-text);border-color:#1e3552; }
+
+.repo-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(340px,1fr));
+  gap:12px;
+}
+
+/* ── REPO CARD ── */
+.repo-card {
+  background:var(--gs-surface);
+  border:1px solid var(--gs-border);
+  border-radius:var(--radius);
+  padding:16px 18px;
+  display:flex;flex-direction:column;gap:8px;
+  transition:border-color .15s, transform .15s, box-shadow .15s;
+  cursor:pointer;
+  position:relative;
+}
+.repo-card:hover {
+  border-color:var(--gs-purple);
+  box-shadow:0 0 0 1px var(--gs-purple), 0 4px 20px rgba(108,80,185,.15);
+  transform:translateY(-1px);
+}
+.card-top { display:flex;align-items:center;gap:10px; }
+.card-avatar {
+  width:32px;height:32px;
+  border-radius:6px;
+  background:var(--gs-surface3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:var(--gs-text);
+  flex-shrink:0;
+  overflow:hidden;
+}
+.card-avatar img { width:100%;height:100%;object-fit:cover; }
+.card-title-wrap { flex:1;min-width:0; }
+.card-full-name { font-size:14px;font-weight:600;color:var(--gs-link); overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+.card-full-name:hover { text-decoration:underline; }
+.card-source-badge {
+  font-size:10.5px;
+  font-weight:500;
+  padding:1px 7px;
+  border-radius:20px;
+  border:1px solid currentColor;
+  opacity:.8;
+  flex-shrink:0;
+}
+.card-desc { font-size:12.5px;color:var(--gs-muted);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden; }
+.card-footer { display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:2px; }
+.card-stat { display:flex;align-items:center;gap:4px;font-size:12px;color:var(--gs-muted); }
+.card-stat svg { flex-shrink:0; }
+.card-lang-dot { width:10px;height:10px;border-radius:50%;flex-shrink:0; }
+.card-lang-label { font-size:12px;color:var(--gs-muted); }
+.card-updated { font-size:11.5px;color:var(--gs-muted);font-family:var(--ff-code); margin-left:auto; }
+.card-topics { display:flex;flex-wrap:wrap;gap:5px; }
+.card-topic { background:var(--gs-tag-bg);color:var(--gs-tag-text);border:1px solid #1e3552;border-radius:20px;padding:1px 8px;font-size:11px; }
+
+/* card actions bar */
+.card-actions {
+  display:flex;gap:6px;align-items:center;
+  margin-top:4px;
+  padding-top:10px;
+  border-top:1px solid var(--gs-border);
+}
+.card-btn {
+  background:var(--gs-surface3);
+  border:1px solid var(--gs-border);
+  color:var(--gs-text);
+  padding:4px 10px;
+  border-radius:var(--radius);
+  font-size:11.5px;
+  font-family:var(--ff-ui);
+  font-weight:500;
+  cursor:pointer;
+  display:flex;align-items:center;gap:5px;
+  transition:background .15s,border-color .15s;
+  text-decoration:none;
+}
+.card-btn:hover { background:#2c333b;border-color:var(--gs-border2);text-decoration:none; }
+.card-btn-code { background:var(--gs-purple);border-color:var(--gs-purple2);color:#fff; }
+.card-btn-code:hover { background:var(--gs-purple2); }
+
+/* ── SKELETON LOADING ── */
+.skeleton {
+  background:linear-gradient(90deg,var(--gs-surface3) 25%,var(--gs-surface2) 50%,var(--gs-surface3) 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.4s infinite;
+  border-radius:4px;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.skel-card { background:var(--gs-surface);border:1px solid var(--gs-border);border-radius:var(--radius);padding:16px 18px;display:flex;flex-direction:column;gap:10px; }
+.skel-line { height:12px; }
+.skel-w30 { width:30%; }
+.skel-w60 { width:60%; }
+.skel-w80 { width:80%; }
+.skel-w100 { width:100%; }
+
+/* ── TRENDING SECTION ── */
+.trending-row {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:12px;
+}
+.trend-card {
+  background:var(--gs-surface);
+  border:1px solid var(--gs-border);
+  border-radius:var(--radius);
+  padding:14px 16px;
+  transition:border-color .15s;
+  cursor:pointer;
+}
+.trend-card:hover { border-color:var(--gs-border2); }
+.trend-rank { font-size:11px;color:var(--gs-muted);font-family:var(--ff-code);margin-bottom:6px; }
+.trend-name { font-size:14px;font-weight:600;color:var(--gs-link);margin-bottom:4px; }
+.trend-desc { font-size:12px;color:var(--gs-muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:8px; }
+.trend-footer { display:flex;align-items:center;gap:10px; }
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  text-align:center;
+  padding:48px 20px;
+  color:var(--gs-muted);
+}
+.empty-state svg { margin-bottom:12px;opacity:.4; }
+.empty-title { font-size:16px;font-weight:600;color:var(--gs-text);margin-bottom:6px; }
+.empty-sub { font-size:13px; }
+
+/* ── STATS BAR ── */
+.stats-banner {
+  display:flex;gap:0;
+  background:var(--gs-surface);
+  border:1px solid var(--gs-border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  margin-bottom:32px;
+}
+.stat-cell {
+  flex:1;
+  padding:14px 16px;
+  border-right:1px solid var(--gs-border);
+  text-align:center;
+}
+.stat-cell:last-child { border-right:none; }
+.stat-cell-num { font-size:22px;font-weight:700;color:var(--gs-text);font-family:var(--ff-code); }
+.stat-cell-label { font-size:11.5px;color:var(--gs-muted);margin-top:2px; }
+
+/* ── TOAST ── */
+.toast {
+  position:fixed;bottom:20px;left:50%;
+  transform:translateX(-50%) translateY(60px);
+  background:var(--gs-surface2);border:1px solid var(--gs-border2);
+  color:var(--gs-text);padding:10px 20px;border-radius:var(--radius);
+  font-size:13.5px;font-weight:500;
+  box-shadow:0 4px 20px rgba(0,0,0,.5);
+  z-index:1000;
+  transition:transform .25s ease,opacity .25s ease;
+  opacity:0;white-space:nowrap;
+}
+.toast.show { transform:translateX(-50%) translateY(0);opacity:1; }
+
+/* ── PAGINATION ── */
+.pagination {
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  margin-top:24px;
+}
+.page-btn {
+  background:var(--gs-surface);border:1px solid var(--gs-border);
+  color:var(--gs-text);padding:6px 12px;border-radius:var(--radius);
+  font-size:12.5px;font-family:var(--ff-ui);cursor:pointer;
+  transition:background .15s,border-color .15s;
+  min-width:34px;text-align:center;
+}
+.page-btn:hover { background:var(--gs-surface3);border-color:var(--gs-border2); }
+.page-btn.active { background:var(--gs-purple);border-color:var(--gs-purple2);color:#fff; }
+.page-btn:disabled { opacity:.4;cursor:not-allowed; }
+
+/* ── API STATUS BADGE ── */
+.api-status {
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:11px;color:var(--gs-muted);
+  padding:3px 10px;
+  background:var(--gs-surface3);
+  border:1px solid var(--gs-border);
+  border-radius:20px;
+}
+.api-dot { width:6px;height:6px;border-radius:50%;background:var(--gs-green); }
+.api-dot.warn { background:var(--gs-amber); }
+.api-dot.err  { background:var(--gs-red); }
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .stats-banner { display:none; }
+}
+@media(max-width:640px){
+  .nav-links,.nav-right .nav-link{display:none;}
+  .hamburger{display:flex;}
+  .hero{padding:40px 16px 32px;}
+  .home-body{padding:20px 12px 40px;}
+  .repo-grid,.trending-row{grid-template-columns:1fr;}
+  .search-btn span{display:none;}
+}
+@media(hover:none) and (pointer:coarse){
+  .card-btn,.page-btn,.filter-pill{min-height:38px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar" id="navbar">
+  <a class="navbar-brand" href="home.html" title="GitSite Home">
+    <svg class="brand-icon" viewBox="0 0 512 512" fill="currentColor">
+      <path d="M416,160a64,64,0,1,0-96.27,55.24c-2.29,29.08-20.08,37-75,48.42-17.76,3.68-35.93,7.45-52.71,13.93V151.39a64,64,0,1,0-64,0V360.61a64,64,0,1,0,64.42.24c2.39-18,16-24.33,65.26-34.52,27.43-5.67,55.78-11.54,79.78-26.95,29-18.58,44.53-46.78,46.36-83.89A64,64,0,0,0,416,160ZM160,64a32,32,0,1,1-32,32A32,32,0,0,1,160,64Zm0,384a32,32,0,1,1,32-32A32,32,0,0,1,160,448ZM352,192a32,32,0,1,1,32-32A32,32,0,0,1,352,192Z"/>
+    </svg>
+    <span class="brand-name">GitSite</span>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="#" class="nav-link" onclick="switchToTrending();return false;">Explore</a>
+    <a href="#" class="nav-link">Issues</a>
+    <a href="#" class="nav-link">Marketplace</a>
+  </div>
+  <div class="nav-right">
+    <a href="#" class="nav-link nav-new">+ New</a>
+    <div class="nav-avatar" title="Profile">L</div>
+  </div>
+  <button class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="home.html" class="mob-link">Home</a>
+  <a href="#" class="mob-link" onclick="switchToTrending();return false;">Explore</a>
+  <a href="#" class="mob-link">Issues</a>
+  <a href="#" class="mob-link">Marketplace</a>
+</div>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-logo">
+      <svg class="hero-logo-icon" viewBox="0 0 512 512" fill="currentColor">
+        <path d="M416,160a64,64,0,1,0-96.27,55.24c-2.29,29.08-20.08,37-75,48.42-17.76,3.68-35.93,7.45-52.71,13.93V151.39a64,64,0,1,0-64,0V360.61a64,64,0,1,0,64.42.24c2.39-18,16-24.33,65.26-34.52,27.43-5.67,55.78-11.54,79.78-26.95,29-18.58,44.53-46.78,46.36-83.89A64,64,0,0,0,416,160ZM160,64a32,32,0,1,1-32,32A32,32,0,0,1,160,64Zm0,384a32,32,0,1,1,32-32A32,32,0,0,1,160,448ZM352,192a32,32,0,1,1,32-32A32,32,0,0,1,352,192Z"/>
+      </svg>
+    </div>
+    <h1 class="hero-title">Discover <span>Open Source</span></h1>
+    <p class="hero-sub">Search repositories across GitHub. Browse, fork, clone and download any public project.</p>
+
+    <!-- Search -->
+    <div class="search-wrap">
+      <div class="search-source-tabs">
+        <button class="src-tab active" data-source="github" onclick="setSource('github')">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="display:inline;vertical-align:middle;margin-right:4px"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23A11.52 11.52 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.297-1.23 3.297-1.23.646 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </button>
+        <button class="src-tab" data-source="gitlab" onclick="setSource('gitlab')">
+          <svg width="12" height="12" viewBox="0 0 380 380" fill="currentColor" style="display:inline;vertical-align:middle;margin-right:4px"><path d="M282.83 170.73l-1.03-2.81-46.18-120.87a6.67 6.67 0 00-6.6-4.29 6.67 6.67 0 00-6.3 4.7l-29.47 90.38H186l-29.47-90.38a6.67 6.67 0 00-12.9-.41L97.45 167.92l-1.03 2.81C86.3 196.42 90.3 225 108.18 245l.1.12.26.26 72.63 54.44 35.99 27.2 21.9 16.56a7.71 7.71 0 009.25 0l21.9-16.56 36-27.2 72.9-54.7.1-.12c17.81-20 21.76-48.58 11.62-74.27z"/></svg>
+          GitLab
+        </button>
+      </div>
+
+      <div class="search-bar" id="searchBar">
+        <div class="search-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <input
+          type="text"
+          class="search-input"
+          id="searchInput"
+          placeholder="Search repositories, topics, users…"
+          autocomplete="off"
+          spellcheck="false"
+        >
+        <button class="search-btn" id="searchBtn" onclick="doSearch()">
+          <span>Search</span>
+        </button>
+        <!-- Autocomplete dropdown -->
+        <div class="search-autocomplete" id="autocomplete"></div>
+      </div>
+    </div>
+
+    <!-- API Status -->
+    <div style="margin-top:12px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;" id="apiStatusWrap">
+      <div class="api-status" id="ghStatus">
+        <div class="api-dot"></div>
+        GitHub API
+      </div>
+      <div class="api-status" id="glStatus">
+        <div class="api-dot warn"></div>
+        GitLab API
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN BODY ── -->
+<div class="home-body">
+
+  <!-- Stats banner -->
+  <div class="stats-banner" id="statsBanner">
+    <div class="stat-cell">
+      <div class="stat-cell-num" id="statRepos">420M+</div>
+      <div class="stat-cell-label">Repositories indexed</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-cell-num" id="statLangs">500+</div>
+      <div class="stat-cell-label">Languages</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-cell-num" id="statDevs">100M+</div>
+      <div class="stat-cell-label">Developers</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-cell-num">Live</div>
+      <div class="stat-cell-label">Real-time API</div>
+    </div>
+  </div>
+
+  <!-- ── RESULTS (shown after search) ── -->
+  <div class="results-area" id="resultsArea" style="display:none;">
+    <div class="section-header">
+      <div class="section-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search Results
+      </div>
+      <div id="resultsCount" class="results-meta"></div>
+    </div>
+    <div class="results-filter-row" id="filterRow">
+      <button class="filter-pill active" data-sort="best_match" onclick="setSort('best_match')">Best match</button>
+      <button class="filter-pill" data-sort="stars" onclick="setSort('stars')">Most stars</button>
+      <button class="filter-pill" data-sort="forks" onclick="setSort('forks')">Most forks</button>
+      <button class="filter-pill" data-sort="updated" onclick="setSort('updated')">Recently updated</button>
+    </div>
+    <div class="repo-grid" id="resultsGrid"></div>
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+  <!-- ── TRENDING (default view) ── -->
+  <div id="trendingArea">
+    <div class="section-header">
+      <div class="section-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        Trending Today
+      </div>
+      <div class="api-status" id="trendStatus"><div class="api-dot"></div> Live from GitHub</div>
+    </div>
+    <div class="trending-row" id="trendingGrid">
+      <!-- skeletons -->
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+/* =========================================
+   GITSITE HOME – home.js (inline)
+   GitHub API v3 (public, no key needed for
+   basic search – 10 req/min unauthenticated)
+   GitLab API v4 (public)
+   ========================================= */
+
+const GITHUB_API  = 'https://api.github.com';
+const GITLAB_API  = 'https://gitlab.com/api/v4';
+
+// Language colour map (subset)
+const LANG_COLORS = {
+  'JavaScript':'#f1e05a','TypeScript':'#3178c6','Python':'#3572A5',
+  'Java':'#b07219','C++':'#f34b7d','C':'#555555','C#':'#178600',
+  'Go':'#00ADD8','Rust':'#dea584','Ruby':'#701516','PHP':'#4F5D95',
+  'Swift':'#F05138','Kotlin':'#A97BFF','Shell':'#89e051','HTML':'#e34c26',
+  'CSS':'#563d7c','Vue':'#41b883','GLSL':'#5686a5','CMake':'#DA3434',
+  'Dockerfile':'#384d54','Lua':'#000080','Zig':'#ec915c','Nim':'#ffc200',
+  'R':'#198CE7','Scala':'#c22d40','Haskell':'#5e5086','Elixir':'#6e4a7e',
+  'Clojure':'#db5855','Dart':'#00B4AB','Assembly':'#6E4C13',
+};
+
+function langColor(lang) {
+  return LANG_COLORS[lang] || '#8b949e';
+}
+
+/* ─── State ─── */
+let currentSource   = 'github';
+let currentQuery    = '';
+let currentSort     = 'best_match';
+let currentPage     = 1;
+let totalResults    = 0;
+let acDebounce      = null;
+let searchDebounce  = null;
+
+/* ─── Utils ─── */
+function showToast(msg, dur=2800) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), dur);
+}
+
+function fmtNum(n) {
+  if (n >= 1000000) return (n/1000000).toFixed(1)+'M';
+  if (n >= 1000)    return (n/1000).toFixed(1)+'k';
+  return String(n);
+}
+
+function timeAgo(dateStr) {
+  if (!dateStr) return '';
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const d = Math.floor(diff/86400000);
+  if (d === 0) return 'today';
+  if (d === 1) return 'yesterday';
+  if (d < 30)  return `${d}d ago`;
+  if (d < 365) return `${Math.floor(d/30)}mo ago`;
+  return `${Math.floor(d/365)}y ago`;
+}
+
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ─── Source toggle ─── */
+function setSource(src) {
+  currentSource = src;
+  document.querySelectorAll('.src-tab').forEach(t => t.classList.toggle('active', t.dataset.source === src));
+  const input = document.getElementById('searchInput');
+  if (input && input.value.trim()) doSearch();
+}
+
+/* ─── Hamburger ─── */
+document.getElementById('hamburger').addEventListener('click', function(){
+  this.classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+});
+
+/* ─── Sort ─── */
+function setSort(s) {
+  currentSort = s;
+  currentPage = 1;
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.toggle('active', p.dataset.sort === s));
+  if (currentQuery) fetchResults(currentQuery, currentPage);
+}
+
+/* ─── Search ─── */
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { doSearch(); return; }
+  if (e.key === 'ArrowDown') { moveAc(1); return; }
+  if (e.key === 'ArrowUp')   { moveAc(-1); return; }
+  if (e.key === 'Escape')    { closeAc(); return; }
+});
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  clearTimeout(acDebounce);
+  const q = this.value.trim();
+  if (!q || q.length < 2) { closeAc(); return; }
+  acDebounce = setTimeout(() => fetchAutocomplete(q), 320);
+});
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('#searchBar')) closeAc();
+});
+
+function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q) return;
+  currentQuery = q;
+  currentPage  = 1;
+  closeAc();
+  document.getElementById('resultsArea').style.display = '';
+  document.getElementById('trendingArea').style.display = 'none';
+  fetchResults(q, 1);
+}
+
+/* ─── GitHub Search API ─── */
+async function fetchResults(q, page) {
+  const grid = document.getElementById('resultsGrid');
+  const countEl = document.getElementById('resultsCount');
+  const paginEl = document.getElementById('pagination');
+
+  showSkeletons(grid, 6);
+  if (countEl) countEl.textContent = 'Loading…';
+  if (paginEl) paginEl.innerHTML = '';
+
+  try {
+    let repos = [];
+    let total = 0;
+
+    if (currentSource === 'github') {
+      const sortParam = currentSort === 'best_match' ? '' : `&sort=${currentSort}`;
+      const url = `${GITHUB_API}/search/repositories?q=${encodeURIComponent(q)}&per_page=12&page=${page}${sortParam}`;
+      const res = await fetch(url, { headers: { 'Accept': 'application/vnd.github+json' } });
+      if (!res.ok) throw new Error(`GitHub API: ${res.status} ${res.statusText}`);
+      const data = await res.json();
+      repos = data.items || [];
+      total = data.total_count || 0;
+      updateApiStatus('gh', 'ok');
+    } else {
+      // GitLab search
+      const orderBy = currentSort === 'stars' ? 'star_count'
+                    : currentSort === 'forks' ? 'forks_count'
+                    : currentSort === 'updated' ? 'last_activity_at'
+                    : 'id';
+      const url = `${GITLAB_API}/projects?search=${encodeURIComponent(q)}&per_page=12&page=${page}&order_by=${orderBy}&visibility=public`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`GitLab API: ${res.status} ${res.statusText}`);
+      repos = await res.json();
+      // GitLab returns X-Total in header, approximate
+      const totalHeader = res.headers.get('X-Total') || res.headers.get('x-total');
+      total = totalHeader ? parseInt(totalHeader) : repos.length * 10;
+      updateApiStatus('gl', 'ok');
+    }
+
+    totalResults = total;
+    renderResults(repos, total);
+    renderPagination(page, total);
+
+    if (countEl) {
+      countEl.innerHTML = `<strong>${fmtNum(total)}</strong> repositories found for "<strong>${escHtml(q)}</strong>"`;
+    }
+  } catch(err) {
+    console.error(err);
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div class="empty-title">API Error</div>
+      <div class="empty-sub">${escHtml(err.message)}<br>GitHub unauthenticated limit: 10 req/min. Try again shortly.</div>
+    </div>`;
+    if (countEl) countEl.textContent = '';
+    updateApiStatus(currentSource === 'github' ? 'gh' : 'gl', 'err');
+  }
+}
+
+/* ─── Render repo cards ─── */
+function renderResults(repos, total) {
+  const grid = document.getElementById('resultsGrid');
+  if (!repos.length) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <div class="empty-title">No repositories found</div>
+      <div class="empty-sub">Try different keywords or filters</div>
+    </div>`;
+    return;
+  }
+
+  if (currentSource === 'github') {
+    grid.innerHTML = repos.map(r => buildGhCard(r)).join('');
+  } else {
+    grid.innerHTML = repos.map(r => buildGlCard(r)).join('');
+  }
+}
+
+function buildGhCard(r) {
+  const lang = r.language || '';
+  const color = langColor(lang);
+  const desc = r.description || 'No description provided.';
+  const topics = (r.topics||[]).slice(0,4).map(t => `<span class="card-topic">${escHtml(t)}</span>`).join('');
+  const avatar = r.owner?.avatar_url
+    ? `<img src="${escHtml(r.owner.avatar_url)}" alt="${escHtml(r.owner.login)}" loading="lazy">`
+    : escHtml((r.owner?.login||'?')[0].toUpperCase());
+  const cloneUrl = r.clone_url || `https://github.com/${r.full_name}.git`;
+  const htmlUrl  = r.html_url  || `https://github.com/${r.full_name}`;
+  return `<div class="repo-card" onclick="openRepo('${escHtml(htmlUrl)}','${escHtml(r.full_name)}')">
+    <div class="card-top">
+      <div class="card-avatar">${avatar}</div>
+      <div class="card-title-wrap">
+        <div class="card-full-name">${escHtml(r.full_name)}</div>
+      </div>
+      <span class="card-source-badge source-gh">GitHub</span>
+    </div>
+    <div class="card-desc">${escHtml(desc)}</div>
+    ${topics ? `<div class="card-topics">${topics}</div>` : ''}
+    <div class="card-footer">
+      ${lang ? `<div class="card-lang-dot" style="background:${color};"></div><span class="card-lang-label">${escHtml(lang)}</span>` : ''}
+      <div class="card-stat">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        ${fmtNum(r.stargazers_count||0)}
+      </div>
+      <div class="card-stat">
+        <svg width="12" height="12" viewBox="0 0 512 512" fill="currentColor"><path d="M416,160a64,64,0,1,0-96.27,55.24c-2.29,29.08-20.08,37-75,48.42-17.76,3.68-35.93,7.45-52.71,13.93V151.39a64,64,0,1,0-64,0V360.61a64,64,0,1,0,64.42.24c2.39-18,16-24.33,65.26-34.52,27.43-5.67,55.78-11.54,79.78-26.95,29-18.58,44.53-46.78,46.36-83.89A64,64,0,0,0,416,160ZM160,64a32,32,0,1,1-32,32A32,32,0,0,1,160,64Zm0,384a32,32,0,1,1,32-32A32,32,0,0,1,160,448ZM352,192a32,32,0,1,1,32-32A32,32,0,0,1,352,192Z"/></svg>
+        ${fmtNum(r.forks_count||0)}
+      </div>
+      <span class="card-updated">${timeAgo(r.pushed_at)}</span>
+    </div>
+    <div class="card-actions" onclick="event.stopPropagation()">
+      <a class="card-btn card-btn-code" href="${escHtml(htmlUrl)}" target="_blank">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        View
+      </a>
+      <button class="card-btn" onclick="copyGitUrl('${escHtml(cloneUrl)}')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+        Clone
+      </button>
+      <button class="card-btn" onclick="downloadZip('${escHtml(r.full_name)}','${escHtml(r.default_branch||'main')}','${escHtml(htmlUrl)}')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        ZIP
+      </button>
+      <button class="card-btn" onclick="forkRepo('${escHtml(r.full_name)}','${escHtml(htmlUrl)}')">
+        <svg width="12" height="12" viewBox="0 0 512 512" fill="currentColor"><path d="M416,160a64,64,0,1,0-96.27,55.24c-2.29,29.08-20.08,37-75,48.42-17.76,3.68-35.93,7.45-52.71,13.93V151.39a64,64,0,1,0-64,0V360.61a64,64,0,1,0,64.42.24c2.39-18,16-24.33,65.26-34.52,27.43-5.67,55.78-11.54,79.78-26.95,29-18.58,44.53-46.78,46.36-83.89A64,64,0,0,0,416,160ZM160,64a32,32,0,1,1-32,32A32,32,0,0,1,160,64Zm0,384a32,32,0,1,1,32-32A32,32,0,0,1,160,448ZM352,192a32,32,0,1,1,32-32A32,32,0,0,1,352,192Z"/></svg>
+        Fork
+      </button>
+    </div>
+  </div>`;
+}
+
+function buildGlCard(r) {
+  const lang = r.languages_used?.[0] || '';
+  const color = langColor(lang);
+  const desc = r.description || 'No description provided.';
+  const ns = r.namespace?.path || r.path_with_namespace?.split('/')[0] || '?';
+  const avatar = r.avatar_url
+    ? `<img src="${escHtml(r.avatar_url)}" alt="" loading="lazy">`
+    : escHtml(ns[0].toUpperCase());
+  const cloneUrl = r.http_url_to_repo || '';
+  const htmlUrl  = r.web_url || '';
+  const topics = (r.topics||r.tag_list||[]).slice(0,4).map(t => `<span class="card-topic">${escHtml(t)}</span>`).join('');
+  return `<div class="repo-card" onclick="openRepo('${escHtml(htmlUrl)}','${escHtml(r.path_with_namespace||r.name)}')">
+    <div class="card-top">
+      <div class="card-avatar">${avatar}</div>
+      <div class="card-title-wrap">
+        <div class="card-full-name">${escHtml(r.path_with_namespace||r.name)}</div>
+      </div>
+      <span class="card-source-badge source-gl">GitLab</span>
+    </div>
+    <div class="card-desc">${escHtml(desc)}</div>
+    ${topics ? `<div class="card-topics">${topics}</div>` : ''}
+    <div class="card-footer">
+      <div class="card-stat">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        ${fmtNum(r.star_count||0)}
+      </div>
+      <div class="card-stat">
+        <svg width="12" height="12" viewBox="0 0 512 512" fill="currentColor"><path d="M416,160a64,64,0,1,0-96.27,55.24c-2.29,29.08-20.08,37-75,48.42-17.76,3.68-35.93,7.45-52.71,13.93V151.39a64,64,0,1,0-64,0V360.61a64,64,0,1,0,64.42.24c2.39-18,16-24.33,65.26-34.52,27.43-5.67,55.78-11.54,79.78-26.95,29-18.58,44.53-46.78,46.36-83.89A64,64,0,0,0,416,160ZM160,64a32,32,0,1,1-32,32A32,32,0,0,1,160,64Zm0,384a32,32,0,1,1,32-32A32,32,0,0,1,160,448ZM352,192a32,32,0,1,1,32-32A32,32,0,0,1,352,192Z"/></svg>
+        ${fmtNum(r.forks_count||0)}
+      </div>
+      <span class="card-updated">${timeAgo(r.last_activity_at)}</span>
+    </div>
+    <div class="card-actions" onclick="event.stopPropagation()">
+      <a class="card-btn card-btn-code" href="${escHtml(htmlUrl)}" target="_blank">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        View
+      </a>
+      ${cloneUrl ? `<button class="card-btn" onclick="copyGitUrl('${escHtml(cloneUrl)}')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+        Clone
+      </button>` : ''}
+    </div>
+  </div>`;
+}
+
+/* ─── Autocomplete ─── */
+async function fetchAutocomplete(q) {
+  if (currentSource !== 'github') return;
+  try {
+    const url = `${GITHUB_API}/search/repositories?q=${encodeURIComponent(q)}&per_page=6&sort=stars`;
+    const res = await fetch(url, { headers:{'Accept':'application/vnd.github+json'} });
+    if (!res.ok) return;
+    const data = await res.json();
+    renderAc(data.items||[], q);
+  } catch(e) {}
+}
+
+let acItems = [];
+let acIdx = -1;
+
+function renderAc(items, q) {
+  acItems = items;
+  acIdx = -1;
+  const ac = document.getElementById('autocomplete');
+  if (!items.length) { closeAc(); return; }
+  ac.innerHTML = items.map((r,i) =>
+    `<div class="ac-item" data-idx="${i}" onclick="selectAc(${i})">
+      <svg width="13" height="13" viewBox="0 0 512 512" fill="currentColor" style="color:var(--gs-muted);flex-shrink:0"><path d="M416,160a64,64,0,1,0-96.27,55.24c-2.29,29.08-20.08,37-75,48.42-17.76,3.68-35.93,7.45-52.71,13.93V151.39a64,64,0,1,0-64,0V360.61a64,64,0,1,0,64.42.24c2.39-18,16-24.33,65.26-34.52,27.43-5.67,55.78-11.54,79.78-26.95,29-18.58,44.53-46.78,46.36-83.89A64,64,0,0,0,416,160ZM160,64a32,32,0,1,1-32,32A32,32,0,0,1,160,64Zm0,384a32,32,0,1,1,32-32A32,32,0,0,1,160,448ZM352,192a32,32,0,1,1,32-32A32,32,0,0,1,352,192Z"/></svg>
+      <div>
+        <div class="ac-repo-name">${escHtml(r.full_name)}</div>
+        <div class="ac-repo-owner">${escHtml(r.description||'').slice(0,60)}</div>
+      </div>
+      <div class="ac-stars">★ ${fmtNum(r.stargazers_count||0)}</div>
+    </div>`
+  ).join('');
+  ac.classList.add('open');
+}
+
+function selectAc(i) {
+  const r = acItems[i];
+  if (!r) return;
+  document.getElementById('searchInput').value = r.full_name;
+  closeAc();
+  doSearch();
+}
+
+function moveAc(dir) {
+  const items = document.querySelectorAll('.ac-item');
+  if (!items.length) return;
+  acIdx = Math.max(-1, Math.min(items.length-1, acIdx+dir));
+  items.forEach((el,i) => el.classList.toggle('selected', i===acIdx));
+  if (acIdx >= 0) {
+    document.getElementById('searchInput').value = acItems[acIdx]?.full_name || '';
+  }
+}
+
+function closeAc() {
+  document.getElementById('autocomplete')?.classList.remove('open');
+  acIdx = -1;
+}
+
+/* ─── Pagination ─── */
+function renderPagination(page, total) {
+  const maxPage = Math.min(Math.ceil(total/12), 100); // GH caps at 1000 results
+  const el = document.getElementById('pagination');
+  if (!el || maxPage <= 1) return;
+
+  let btns = '';
+  // prev
+  btns += `<button class="page-btn" onclick="goPage(${page-1})" ${page===1?'disabled':''}>&#8592;</button>`;
+
+  // pages
+  const pages = [];
+  if (maxPage <= 7) {
+    for(let i=1;i<=maxPage;i++) pages.push(i);
+  } else {
+    pages.push(1);
+    if (page > 3) pages.push('…');
+    for(let i=Math.max(2,page-1);i<=Math.min(maxPage-1,page+1);i++) pages.push(i);
+    if (page < maxPage-2) pages.push('…');
+    pages.push(maxPage);
+  }
+
+  pages.forEach(p => {
+    if (p === '…') btns += `<span class="page-btn" style="cursor:default">…</span>`;
+    else btns += `<button class="page-btn ${p===page?'active':''}" onclick="goPage(${p})">${p}</button>`;
+  });
+
+  btns += `<button class="page-btn" onclick="goPage(${page+1})" ${page===maxPage?'disabled':''}>&#8594;</button>`;
+  el.innerHTML = btns;
+}
+
+function goPage(p) {
+  currentPage = p;
+  fetchResults(currentQuery, p);
+  window.scrollTo({ top: document.getElementById('resultsArea').offsetTop - 70, behavior:'smooth' });
+}
+
+/* ─── Trending ─── */
+async function loadTrending() {
+  const grid = document.getElementById('trendingGrid');
+  showSkeletons(grid, 6);
+  try {
+    // Use GitHub search sorted by stars pushed in last week
+    const since = new Date(Date.now() - 7*24*60*60*1000).toISOString().split('T')[0];
+    const url = `${GITHUB_API}/search/repositories?q=pushed:>${since}&sort=stars&order=desc&per_page=9`;
+    const res = await fetch(url, { headers:{'Accept':'application/vnd.github+json'} });
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    const repos = data.items || [];
+    grid.innerHTML = repos.map((r,i) => buildTrendCard(r,i+1)).join('');
+    updateApiStatus('gh','ok');
+  } catch(e) {
+    grid.innerHTML = `<div style="grid-column:1/-1;color:var(--gs-muted);font-size:13px;text-align:center;padding:24px 0;">
+      Could not load trending repos. GitHub rate limit may be active. Try searching manually.
+    </div>`;
+    updateApiStatus('gh','warn');
+  }
+}
+
+function buildTrendCard(r, rank) {
+  const lang = r.language||'';
+  const color = langColor(lang);
+  return `<div class="trend-card" onclick="openRepo('${escHtml(r.html_url)}','${escHtml(r.full_name)}')">
+    <div class="trend-rank">#${rank} trending this week</div>
+    <div class="trend-name">${escHtml(r.full_name)}</div>
+    <div class="trend-desc">${escHtml(r.description||'No description.')}</div>
+    <div class="trend-footer">
+      ${lang ? `<div class="card-lang-dot" style="background:${color};margin-right:2px;"></div><span class="card-lang-label">${escHtml(lang)}</span>` : ''}
+      <div class="card-stat">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        ${fmtNum(r.stargazers_count)}
+      </div>
+      <div class="card-stat" style="margin-left:auto">
+        <a href="${escHtml(r.html_url)}" target="_blank" class="card-btn" style="padding:3px 8px;font-size:11px;" onclick="event.stopPropagation()">View</a>
+        <button class="card-btn" style="padding:3px 8px;font-size:11px;" onclick="event.stopPropagation();copyGitUrl('${escHtml(r.clone_url||'')}')">Clone</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function switchToTrending() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('resultsArea').style.display = 'none';
+  document.getElementById('trendingArea').style.display = '';
+}
+
+/* ─── Skeletons ─── */
+function showSkeletons(grid, n) {
+  grid.innerHTML = Array(n).fill(`
+    <div class="skel-card">
+      <div style="display:flex;gap:10px;align-items:center">
+        <div class="skeleton" style="width:32px;height:32px;border-radius:6px;"></div>
+        <div class="skeleton skel-line skel-w60"></div>
+      </div>
+      <div class="skeleton skel-line skel-w100"></div>
+      <div class="skeleton skel-line skel-w80"></div>
+      <div style="display:flex;gap:12px;">
+        <div class="skeleton skel-line skel-w30"></div>
+        <div class="skeleton skel-line skel-w30"></div>
+      </div>
+    </div>`).join('');
+}
+
+/* ─── Repo Actions ─── */
+function openRepo(url, name) {
+  // Open in new tab for now (could navigate to index.html?repo=... in a real app)
+  window.open(url, '_blank');
+}
+
+function copyGitUrl(url) {
+  navigator.clipboard.writeText(url)
+    .then(() => showToast('Clone URL copied!'))
+    .catch(() => showToast('Copy: ' + url));
+}
+
+function downloadZip(fullName, branch, fallbackUrl) {
+  const url = `https://github.com/${fullName}/archive/refs/heads/${branch}.zip`;
+  showToast(`Downloading ${fullName}.zip…`);
+  const a = document.createElement('a');
+  a.href = url; a.download = ''; a.target='_blank';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+}
+
+function forkRepo(fullName, htmlUrl) {
+  // Opens GitHub fork page in new tab (requires user to be logged in on GitHub)
+  showToast(`Opening fork page for ${fullName}…`);
+  window.open(`${htmlUrl}/fork`, '_blank');
+}
+
+/* ─── API Status ─── */
+function updateApiStatus(src, status) {
+  const id = src === 'gh' ? 'ghStatus' : 'glStatus';
+  const el = document.getElementById(id);
+  if (!el) return;
+  const dot = el.querySelector('.api-dot');
+  if (!dot) return;
+  dot.className = 'api-dot' + (status==='ok' ? '' : status==='warn' ? ' warn' : ' err');
+}
+
+/* ─── Init ─── */
+loadTrending();
+</script>
+</body>
+</html>
